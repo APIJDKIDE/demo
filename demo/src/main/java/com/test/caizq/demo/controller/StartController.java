@@ -19,7 +19,7 @@ public class StartController {
     @GetMapping("/user/{id}")
     public String testPathVariable(@PathVariable Integer id) {
     	
-    	System.out.println("获取到了id是2："+id);
+    	System.out.println("获取到了id是3："+id);
     	return id+"" ;
     }
     

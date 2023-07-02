@@ -1,0 +1,20 @@
+# 生产环境配置
+server:
+  port: 8081
+  
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.1.12:3306/test_foshan?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8&useSSL=false&allowPublicKeyRetrieval=true 
+    username: root
+    password: 'ld12121212'
+    hikari:
+      maximum-pool-size: 10
+      max-lifetime: 1770000
+mybatis:
+  type-aliases-package: com.test.caizq.demo.entity
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: 
+    - classpath:mapper/*.xml  

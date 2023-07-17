@@ -1,5 +1,8 @@
 package com.test.caizq.demo.controller;
 
+import java.util.List;
+import java.util.UUID;
+
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.test.caizq.demo.entity.JsonResult;
 import com.test.caizq.demo.entity.User;
 import com.test.caizq.demo.serviceImpl.UserServiceImpl;
+import com.test.caizq.demo.util.GenerateUtils;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -70,6 +74,33 @@ public class TestController {
 		
 	}
 	
-	
-	
+	@GetMapping("/testMybatis/getAllData")
+	public List<User> testMybatis() {
+		
+		return userServiceImpl.getAllUsers();
+		
+	}
+	/**
+	 * 新增一条username不重复的记录，参数随机生成
+	 * 
+	 */
+	@GetMapping("/testMybatis/addUser")
+	public JsonResult<User> testAddUser() {
+		
+		int id = UUID.randomUUID().toString().hashCode();
+		if(id<0) {id = -id;}
+		String username = GenerateUtils.getRandomString(8);
+		String password = GenerateUtils.getRandomString(16);
+		
+		
+		//判断用户username是否已存在
+		User originUser = userServiceImpl.getUserByName(username);
+		if(originUser!=null) {
+           return new JsonResult<User>("200","数据已存在",originUser);
+		}
+		
+		User user = new User(Integer.toString(id),username,password);
+		userServiceImpl.addUser(user);
+		return new JsonResult<User>("200","写入成功",user);
+	}
 }
